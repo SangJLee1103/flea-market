@@ -4,6 +4,7 @@ import com.sangjun.flea.domain.entity.Member;
 import com.sangjun.flea.dto.MemberDto;
 import com.sangjun.flea.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,8 +24,9 @@ public class MemberController {
 
 
     @PostMapping("/join")
-    public void join(@RequestBody @Valid MemberDto memberDto) {
+    public String join(@RequestBody @Valid MemberDto memberDto) {
         memberService.join(memberDto);
+        return "환영합니다! 회원가입이 완료되었습니다.";
     }
 
     @GetMapping("/read-all")

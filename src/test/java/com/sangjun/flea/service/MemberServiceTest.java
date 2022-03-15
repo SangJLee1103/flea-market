@@ -24,7 +24,7 @@ class MemberServiceTest {
                         .memberId("lsj16632")
                         .email("lsj16632@naver.com")
                         .phoneNumber("010-5199-2492")
-                        .nickName("어려워")
+                        .nickname("어려워")
                         .address("경기도 하남")
                         .password("lsj2486512!")
                         .build();
