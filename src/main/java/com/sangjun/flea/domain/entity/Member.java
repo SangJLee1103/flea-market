@@ -30,7 +30,8 @@ public class Member {
     @Column(length = 50, nullable = false)
     private String address;
 
-    @Column(length = 100, nullable = false)
+    @Column(length = 200, nullable = false)
     @JsonIgnore
     private String password;
+
 }

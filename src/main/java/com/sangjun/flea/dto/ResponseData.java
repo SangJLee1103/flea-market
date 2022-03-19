@@ -1,11 +1,14 @@
 package com.sangjun.flea.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class ErrorData {
-    String code;
+@Builder
+public class ResponseData {
+    int code;
     String message;
 }
+
