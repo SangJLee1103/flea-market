@@ -4,6 +4,7 @@ import com.sangjun.flea.domain.entity.Member;
 import com.sangjun.flea.dto.MemberDto;
 import com.sangjun.flea.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,10 +31,43 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
-    //회원 id로 조회
+    //회원 id로 회원 조회
     public Member findOne(String memberId){
         return memberRepository.findByMemberId(memberId);
     }
+
+    @Transactional(readOnly = true)
+    public void checkMemberIdDuplication(MemberDto dto) {
+        boolean usernameDuplicate = memberRepository.existsByMemberId(dto.toEntity().getMemberId());
+        if (usernameDuplicate) {
+            throw new IllegalStateException("이미 존재하는 아이디입니다.");
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public void checkNicknameDuplication(MemberDto dto) {
+        boolean nicknameDuplicate = memberRepository.existsByNickname(dto.toEntity().getNickname());
+        if (nicknameDuplicate) { throw new IllegalStateException("이미 존재하는 닉네임입니다.");
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public void checkEmailDuplication(MemberDto dto) {
+        boolean emailDuplicate = memberRepository.existsByEmail(dto.toEntity().getEmail());
+        if (emailDuplicate) {
+            throw new IllegalStateException("이미 존재하는 이메일입니다.");
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public void checkPhoneNumberDuplication(MemberDto dto) {
+        boolean phoneNumberDuplicate = memberRepository.existsByPhoneNumber(dto.toEntity().getPhoneNumber());
+        if (phoneNumberDuplicate) {
+            throw new IllegalStateException("이미 존재하는 휴대폰 번호입니다.");
+        }
+    }
+
+
 
     //회원 수정
 

@@ -21,9 +21,6 @@ class MemberServiceTest {
     MemberRepository memberRepository;
 
     @Autowired
-    MemberService memberService;
-
-    @Autowired
     ObjectMapper objectMapper;
 
 

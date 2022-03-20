@@ -24,6 +24,10 @@ public class MemberController {
     //회원가입 API
     @PostMapping("/join")
     public void join(@RequestBody @Valid MemberDto memberDto) {
+        memberService.checkMemberIdDuplication(memberDto);
+        memberService.checkNicknameDuplication(memberDto);
+        memberService.checkEmailDuplication(memberDto);
+        memberService.checkPhoneNumberDuplication(memberDto);
         memberService.join(memberDto);
     }
 
