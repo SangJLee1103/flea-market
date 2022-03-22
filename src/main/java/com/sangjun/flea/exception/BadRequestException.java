@@ -23,10 +23,4 @@ public class BadRequestException {
     public ResponseData methodValidException(MethodArgumentNotValidException e){
         return new ResponseData(HttpStatus.BAD_REQUEST.value(), e.getBindingResult().getAllErrors().get(0).getDefaultMessage());
     }
-
-    @ResponseStatus(HttpStatus.CONFLICT)
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseData dataViolationException(IllegalArgumentException e){
-        return new ResponseData(HttpStatus.CONFLICT.value(), e.getMessage());
-    }
 }

@@ -2,9 +2,11 @@ package com.sangjun.flea.service;
 
 import com.sangjun.flea.domain.entity.Member;
 import com.sangjun.flea.dto.MemberDto;
+import com.sangjun.flea.dto.ResponseData;
 import com.sangjun.flea.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +21,6 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
 
     //회원가입
-    @Transactional
     public void join(MemberDto memberDto){
         memberDto.setPassword(passwordEncoder.encode(memberDto.getPassword()));
         Member saveMember = memberDto.toEntity();
@@ -36,7 +37,6 @@ public class MemberService {
         return memberRepository.findByMemberId(memberId);
     }
 
-    @Transactional(readOnly = true)
     public void checkMemberIdDuplication(MemberDto dto) {
         boolean usernameDuplicate = memberRepository.existsByMemberId(dto.toEntity().getMemberId());
         if (usernameDuplicate) {
@@ -44,14 +44,13 @@ public class MemberService {
         }
     }
 
-    @Transactional(readOnly = true)
     public void checkNicknameDuplication(MemberDto dto) {
         boolean nicknameDuplicate = memberRepository.existsByNickname(dto.toEntity().getNickname());
-        if (nicknameDuplicate) { throw new IllegalStateException("이미 존재하는 닉네임입니다.");
+        if (nicknameDuplicate) {
+            throw new IllegalStateException("이미 존재하는 닉네임입니다.");
         }
     }
 
-    @Transactional(readOnly = true)
     public void checkEmailDuplication(MemberDto dto) {
         boolean emailDuplicate = memberRepository.existsByEmail(dto.toEntity().getEmail());
         if (emailDuplicate) {
@@ -59,7 +58,6 @@ public class MemberService {
         }
     }
 
-    @Transactional(readOnly = true)
     public void checkPhoneNumberDuplication(MemberDto dto) {
         boolean phoneNumberDuplicate = memberRepository.existsByPhoneNumber(dto.toEntity().getPhoneNumber());
         if (phoneNumberDuplicate) {

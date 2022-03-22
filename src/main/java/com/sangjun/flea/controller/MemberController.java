@@ -2,8 +2,11 @@ package com.sangjun.flea.controller;
 
 import com.sangjun.flea.domain.entity.Member;
 import com.sangjun.flea.dto.MemberDto;
+import com.sangjun.flea.dto.ResponseData;
 import com.sangjun.flea.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,12 +26,13 @@ public class MemberController {
 
     //회원가입 API
     @PostMapping("/join")
-    public void join(@RequestBody @Valid MemberDto memberDto) {
+    public ResponseData join(@RequestBody @Valid MemberDto memberDto) {
         memberService.checkMemberIdDuplication(memberDto);
         memberService.checkNicknameDuplication(memberDto);
         memberService.checkEmailDuplication(memberDto);
         memberService.checkPhoneNumberDuplication(memberDto);
         memberService.join(memberDto);
+        return new ResponseData(HttpStatus.CREATED.value(), "회원가입이 완료되었습니다");
     }
 
     //회원 전체조회 API
@@ -42,5 +46,8 @@ public class MemberController {
     public Member readOne(@PathVariable String id){
         return memberService.findOne(id);
     }
+
+
+
 
 }
